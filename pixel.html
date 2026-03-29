@@ -1,0 +1,837 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pixel — Posters Crafted to Perfection</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --black: #080808;
+  --dark: #0f0f0f;
+  --card: #141414;
+  --border: #222;
+  --gold: #c9a84c;
+  --gold-light: #e8c96a;
+  --gold-pale: rgba(201,168,76,0.12);
+  --white: #f5f0e8;
+  --mid: #888;
+  --dim: #444;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Montserrat', sans-serif;
+  background: var(--black);
+  color: var(--white);
+  overflow-x: hidden;
+  cursor: none;
+}
+
+/* CUSTOM CURSOR */
+.cursor {
+  position: fixed; z-index: 9999;
+  width: 10px; height: 10px;
+  background: var(--gold);
+  border-radius: 50%;
+  pointer-events: none;
+  transition: transform 0.15s ease, opacity 0.2s;
+  transform: translate(-50%, -50%);
+}
+.cursor-ring {
+  position: fixed; z-index: 9998;
+  width: 36px; height: 36px;
+  border: 1.5px solid var(--gold);
+  border-radius: 50%;
+  pointer-events: none;
+  transition: transform 0.35s ease, width 0.3s, height 0.3s, opacity 0.3s;
+  transform: translate(-50%, -50%);
+  opacity: 0.5;
+}
+.cursor-ring.hovered { width: 60px; height: 60px; opacity: 0.8; }
+
+/* NOISE OVERLAY */
+body::before {
+  content: '';
+  position: fixed; inset: 0; z-index: 1;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.035'/%3E%3C/svg%3E");
+  pointer-events: none;
+  opacity: 0.4;
+}
+
+/* NAV */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 1.5rem 4%;
+  background: linear-gradient(to bottom, rgba(8,8,8,0.98), transparent);
+}
+.brand {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1.8rem;
+  letter-spacing: 4px;
+  color: var(--gold);
+  text-shadow: 0 0 30px rgba(201,168,76,0.4);
+}
+.nav-tagline {
+  font-size: 0.65rem;
+  letter-spacing: 3px;
+  color: var(--mid);
+  text-transform: uppercase;
+  font-weight: 500;
+}
+
+/* HERO */
+.hero {
+  min-height: 100vh;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  text-align: center;
+  position: relative;
+  padding: 8rem 4% 4rem;
+  overflow: hidden;
+}
+
+/* Animated grid lines */
+.hero::before {
+  content: '';
+  position: absolute; inset: 0;
+  background-image:
+    linear-gradient(rgba(201,168,76,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(201,168,76,0.04) 1px, transparent 1px);
+  background-size: 60px 60px;
+  animation: gridShift 20s linear infinite;
+}
+@keyframes gridShift {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(60px); }
+}
+
+.hero::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 50%; transform: translateX(-50%);
+  width: 800px; height: 300px;
+  background: radial-gradient(ellipse, rgba(201,168,76,0.08) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.hero-eyebrow {
+  display: inline-flex; align-items: center; gap: 0.8rem;
+  font-size: 0.7rem; letter-spacing: 4px; color: var(--gold);
+  text-transform: uppercase; margin-bottom: 2rem;
+  opacity: 0; animation: fadeUp 0.8s 0.2s forwards;
+}
+.hero-eyebrow::before, .hero-eyebrow::after {
+  content: ''; width: 30px; height: 1px; background: var(--gold); opacity: 0.5;
+}
+
+.hero-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(4rem, 12vw, 10rem);
+  line-height: 0.9;
+  letter-spacing: 6px;
+  color: var(--white);
+  position: relative; z-index: 2;
+  opacity: 0; animation: fadeUp 0.8s 0.35s forwards;
+}
+.hero-title .crafted {
+  display: block;
+  color: transparent;
+  -webkit-text-stroke: 1px var(--gold);
+  text-shadow: none;
+  letter-spacing: 10px;
+}
+.hero-title .perfection {
+  display: block;
+  background: linear-gradient(135deg, var(--gold-light), var(--gold), #8b6914);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  filter: drop-shadow(0 0 40px rgba(201,168,76,0.35));
+  letter-spacing: 8px;
+}
+
+.hero-sub {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(1rem, 2.5vw, 1.4rem);
+  font-style: italic;
+  color: var(--mid);
+  margin-top: 2rem; max-width: 480px;
+  line-height: 1.8;
+  opacity: 0; animation: fadeUp 0.8s 0.5s forwards;
+}
+
+.hero-scroll {
+  position: absolute; bottom: 2.5rem; left: 50%; transform: translateX(-50%);
+  display: flex; flex-direction: column; align-items: center; gap: 0.5rem;
+  font-size: 0.65rem; letter-spacing: 3px; color: var(--dim); text-transform: uppercase;
+  animation: pulse 2s infinite;
+}
+.scroll-line {
+  width: 1px; height: 40px;
+  background: linear-gradient(to bottom, var(--gold), transparent);
+}
+
+@keyframes pulse { 0%, 100% { opacity: 0.5; } 50% { opacity: 1; } }
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* POSTER SHOWCASE */
+.showcase {
+  padding: 6rem 4%;
+  position: relative; z-index: 2;
+}
+.section-label {
+  display: flex; align-items: center; gap: 1rem;
+  font-size: 0.65rem; letter-spacing: 4px; color: var(--gold);
+  text-transform: uppercase; margin-bottom: 1rem;
+}
+.section-label::after { content: ''; flex: 1; height: 1px; background: var(--dim); }
+
+.showcase-header {
+  display: flex; justify-content: space-between; align-items: flex-end;
+  margin-bottom: 3rem; flex-wrap: wrap; gap: 1rem;
+}
+.showcase-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 300;
+  line-height: 1.2;
+}
+.showcase-title em { font-style: italic; color: var(--gold); }
+.showcase-desc { font-size: 0.82rem; color: var(--mid); line-height: 1.8; max-width: 300px; font-weight: 300; }
+
+/* POSTER GRID */
+.poster-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+}
+
+.poster-card {
+  position: relative;
+  border-radius: 4px;
+  overflow: hidden;
+  cursor: none;
+  border: 1px solid var(--border);
+  transition: border-color 0.4s;
+}
+.poster-card:hover { border-color: var(--gold); }
+.poster-card:nth-child(1) { grid-row: span 2; }
+
+.poster-img {
+  width: 100%; height: 100%;
+  min-height: 260px;
+  position: relative;
+  overflow: hidden;
+  background: var(--card);
+  display: flex; align-items: center; justify-content: center;
+}
+
+/* Porsche SVG art for each card */
+.poster-art {
+  width: 100%; height: 100%;
+  min-height: 260px;
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+.poster-card:hover .poster-art { transform: scale(1.06); }
+
+.poster-art svg { width: 100%; height: 100%; display: block; }
+
+/* Car SVG backgrounds */
+.art-1 { background: linear-gradient(135deg, #0a0a0a 0%, #1a1008 50%, #0f0a04 100%); }
+.art-2 { background: linear-gradient(135deg, #050510 0%, #0a0a20 50%, #050510 100%); }
+.art-3 { background: linear-gradient(135deg, #0a0505 0%, #1a0808 50%, #0a0505 100%); }
+.art-4 { background: linear-gradient(135deg, #020808 0%, #041010 50%, #020808 100%); }
+.art-5 { background: linear-gradient(135deg, #08080a 0%, #12121a 50%, #08080a 100%); }
+
+.poster-overlay {
+  position: absolute; inset: 0;
+  background: linear-gradient(to top, rgba(0,0,0,0.92) 0%, rgba(0,0,0,0.3) 40%, transparent 70%);
+  opacity: 0; transition: opacity 0.4s;
+  display: flex; flex-direction: column; justify-content: flex-end;
+  padding: 1.5rem;
+}
+.poster-card:hover .poster-overlay { opacity: 1; }
+
+.overlay-model {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1.6rem; letter-spacing: 3px;
+  color: var(--white);
+  transform: translateY(10px);
+  transition: transform 0.4s;
+}
+.poster-card:hover .overlay-model { transform: translateY(0); }
+
+.overlay-details {
+  font-size: 0.72rem; color: var(--gold);
+  letter-spacing: 2px; text-transform: uppercase; margin-top: 0.3rem;
+  transform: translateY(10px); transition: transform 0.4s 0.05s;
+  opacity: 0; transition: transform 0.4s 0.05s, opacity 0.4s 0.05s;
+}
+.poster-card:hover .overlay-details { transform: translateY(0); opacity: 1; }
+
+.poster-badge {
+  position: absolute; top: 1rem; right: 1rem;
+  background: var(--gold);
+  color: var(--black);
+  font-size: 0.6rem; font-weight: 700;
+  letter-spacing: 1.5px; text-transform: uppercase;
+  padding: 0.3rem 0.7rem; border-radius: 2px;
+}
+
+.size-tag {
+  position: absolute; top: 1rem; left: 1rem;
+  background: rgba(0,0,0,0.7);
+  border: 1px solid var(--dim);
+  color: var(--mid);
+  font-size: 0.6rem; font-weight: 500; letter-spacing: 1.5px;
+  padding: 0.3rem 0.7rem; border-radius: 2px;
+  backdrop-filter: blur(4px);
+}
+
+/* MARQUEE */
+.marquee-section {
+  padding: 2rem 0;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  overflow: hidden;
+  position: relative; z-index: 2;
+}
+.marquee-track {
+  display: flex; gap: 3rem;
+  animation: marquee 20s linear infinite;
+  white-space: nowrap;
+}
+.marquee-item {
+  display: flex; align-items: center; gap: 1rem;
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1rem; letter-spacing: 4px; color: var(--dim);
+  flex-shrink: 0;
+}
+.marquee-dot { width: 4px; height: 4px; background: var(--gold); border-radius: 50%; }
+@keyframes marquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+/* WHY SECTION */
+.why-section {
+  padding: 7rem 4%;
+  position: relative; z-index: 2;
+}
+.why-grid {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 5rem; align-items: center; max-width: 1200px; margin: 0 auto;
+}
+.why-text-side {}
+.why-big-text {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(2.5rem, 5vw, 4rem);
+  font-weight: 300; line-height: 1.15;
+  margin-top: 1.5rem; margin-bottom: 2rem;
+}
+.why-big-text em { font-style: italic; color: var(--gold); }
+.why-body { font-size: 0.85rem; color: var(--mid); line-height: 2; font-weight: 300; max-width: 440px; }
+
+.reasons-list { display: flex; flex-direction: column; gap: 0; }
+.reason-item {
+  display: flex; align-items: flex-start; gap: 1.5rem;
+  padding: 2rem 0;
+  border-bottom: 1px solid var(--border);
+  position: relative;
+  transition: background 0.3s;
+}
+.reason-item::before {
+  content: '';
+  position: absolute; left: -4%; right: -4%; inset-y: 0;
+  background: var(--gold-pale); opacity: 0;
+  transition: opacity 0.3s;
+}
+.reason-item:hover::before { opacity: 1; }
+
+.reason-num {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 2.5rem; color: var(--border);
+  line-height: 1; flex-shrink: 0; width: 50px;
+  transition: color 0.3s;
+}
+.reason-item:hover .reason-num { color: var(--gold); }
+.reason-content { position: relative; z-index: 1; }
+.reason-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.2rem; font-weight: 600;
+  margin-bottom: 0.4rem;
+  transition: color 0.3s;
+}
+.reason-item:hover .reason-title { color: var(--gold); }
+.reason-desc { font-size: 0.82rem; color: var(--mid); line-height: 1.7; font-weight: 300; }
+
+/* SPECS ROW */
+.specs-section {
+  padding: 5rem 4%;
+  background: var(--dark);
+  position: relative; z-index: 2;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+}
+.specs-inner { max-width: 1200px; margin: 0 auto; }
+.specs-grid {
+  display: grid; grid-template-columns: repeat(4, 1fr);
+  gap: 0;
+  margin-top: 3rem;
+}
+.spec-item {
+  padding: 2rem;
+  border-right: 1px solid var(--border);
+  text-align: center;
+  transition: background 0.3s;
+}
+.spec-item:last-child { border-right: none; }
+.spec-item:hover { background: var(--gold-pale); }
+.spec-icon { font-size: 1.8rem; margin-bottom: 1rem; }
+.spec-value {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 2.5rem; color: var(--gold); letter-spacing: 2px;
+}
+.spec-label { font-size: 0.7rem; color: var(--mid); letter-spacing: 2px; text-transform: uppercase; margin-top: 0.3rem; }
+
+/* TESTIMONIAL */
+.quote-section {
+  padding: 7rem 4%;
+  text-align: center;
+  position: relative; z-index: 2;
+  overflow: hidden;
+}
+.quote-section::before {
+  content: '"';
+  position: absolute; top: -2rem; left: 50%; transform: translateX(-50%);
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 25rem; line-height: 1;
+  color: rgba(201,168,76,0.03);
+  pointer-events: none;
+}
+.quote-text {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(1.5rem, 3vw, 2.2rem);
+  font-style: italic; font-weight: 300;
+  line-height: 1.6; max-width: 750px; margin: 0 auto;
+  color: rgba(245,240,232,0.85);
+}
+.quote-text em { color: var(--gold); font-style: normal; }
+.quote-author {
+  margin-top: 2rem;
+  font-size: 0.72rem; letter-spacing: 3px; color: var(--dim); text-transform: uppercase;
+}
+
+/* ORDER CTA */
+.order-section {
+  padding: 5rem 4% 7rem;
+  position: relative; z-index: 2;
+}
+.order-box {
+  max-width: 900px; margin: 0 auto;
+  border: 1px solid var(--dim);
+  border-radius: 4px;
+  padding: 4rem;
+  position: relative;
+  overflow: hidden;
+  text-align: center;
+  transition: border-color 0.4s;
+}
+.order-box:hover { border-color: var(--gold); }
+.order-box::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse at center, rgba(201,168,76,0.06) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+/* Corner accents */
+.order-box::after {
+  content: '';
+  position: absolute;
+  top: -1px; left: -1px; right: -1px; bottom: -1px;
+  border-radius: 4px;
+  background:
+    linear-gradient(var(--gold), var(--gold)) top left / 30px 1px no-repeat,
+    linear-gradient(var(--gold), var(--gold)) top left / 1px 30px no-repeat,
+    linear-gradient(var(--gold), var(--gold)) top right / 30px 1px no-repeat,
+    linear-gradient(var(--gold), var(--gold)) top right / 1px 30px no-repeat,
+    linear-gradient(var(--gold), var(--gold)) bottom left / 30px 1px no-repeat,
+    linear-gradient(var(--gold), var(--gold)) bottom left / 1px 30px no-repeat,
+    linear-gradient(var(--gold), var(--gold)) bottom right / 30px 1px no-repeat,
+    linear-gradient(var(--gold), var(--gold)) bottom right / 1px 30px no-repeat;
+  opacity: 0.6;
+  transition: opacity 0.4s;
+}
+.order-box:hover::after { opacity: 1; }
+
+.order-eyebrow {
+  font-size: 0.65rem; letter-spacing: 4px; color: var(--gold);
+  text-transform: uppercase; margin-bottom: 1.5rem; display: block;
+}
+.order-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(2.5rem, 6vw, 5rem);
+  letter-spacing: 5px; line-height: 1;
+  margin-bottom: 1.5rem;
+}
+.order-title span {
+  background: linear-gradient(135deg, var(--gold-light), var(--gold));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.order-desc {
+  font-size: 0.9rem; color: var(--mid); line-height: 1.8;
+  max-width: 500px; margin: 0 auto 2.5rem; font-weight: 300;
+}
+.order-btn {
+  display: inline-flex; align-items: center; gap: 1rem;
+  background: var(--gold);
+  color: var(--black);
+  text-decoration: none;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.8rem; font-weight: 700;
+  letter-spacing: 3px; text-transform: uppercase;
+  padding: 1.2rem 3rem;
+  border-radius: 2px;
+  transition: all 0.3s;
+  position: relative; z-index: 1;
+  box-shadow: 0 0 40px rgba(201,168,76,0.3);
+}
+.order-btn:hover {
+  background: var(--gold-light);
+  transform: translateY(-3px);
+  box-shadow: 0 15px 50px rgba(201,168,76,0.4);
+}
+.order-btn svg { transition: transform 0.3s; }
+.order-btn:hover svg { transform: translateX(4px); }
+
+.order-note { margin-top: 1.5rem; font-size: 0.72rem; color: var(--dim); letter-spacing: 1px; }
+
+/* FOOTER */
+footer {
+  padding: 2.5rem 4%;
+  border-top: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: space-between;
+  position: relative; z-index: 2;
+}
+.footer-brand {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1.2rem; letter-spacing: 4px; color: var(--gold);
+}
+.footer-copy { font-size: 0.72rem; color: var(--dim); letter-spacing: 1px; }
+
+/* RESPONSIVE */
+@media (max-width: 900px) {
+  .poster-grid { grid-template-columns: repeat(2, 1fr); }
+  .poster-card:nth-child(1) { grid-row: span 1; }
+  .why-grid { grid-template-columns: 1fr; gap: 3rem; }
+  .specs-grid { grid-template-columns: repeat(2, 1fr); }
+  .spec-item:nth-child(2) { border-right: none; }
+  .spec-item:nth-child(3), .spec-item:nth-child(4) { border-top: 1px solid var(--border); }
+}
+@media (max-width: 600px) {
+  .poster-grid { grid-template-columns: 1fr; }
+  .order-box { padding: 2.5rem 1.5rem; }
+  .specs-grid { grid-template-columns: 1fr 1fr; }
+  body { cursor: auto; }
+  .cursor, .cursor-ring { display: none; }
+}
+</style>
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- NAV -->
+<nav>
+  <div class="brand">PIXEL</div>
+  <div class="nav-tagline">Wall Art · Crafted to Perfection</div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-eyebrow">Limited Edition Prints</div>
+  <h1 class="hero-title">
+    <span>Posters</span>
+    <span class="crafted">Crafted</span>
+    <span class="perfection">to Perfection</span>
+  </h1>
+  <p class="hero-sub">Where automotive passion meets wall art. Icons reimagined.</p>
+  <div class="hero-scroll">
+    <div class="scroll-line"></div>
+    scroll
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee-section">
+  <div class="marquee-track">
+    <span class="marquee-item"><span class="marquee-dot"></span>PORSCHE 911 GT3</span>
+    <span class="marquee-item"><span class="marquee-dot"></span>DODGE CHALLENGER</span>
+    <span class="marquee-item"><span class="marquee-dot"></span>A3 & A4 SIZES</span>
+    <span class="marquee-item"><span class="marquee-dot"></span>BMW M4 GT3</span>
+    <span class="marquee-item"><span class="marquee-dot"></span>FRAMED & UNFRAMED</span>
+    <span class="marquee-item"><span class="marquee-dot"></span>FORD MUSTANG GT</span>
+    <span class="marquee-item"><span class="marquee-dot"></span>PREMIUM QUALITY</span>
+    <span class="marquee-item"><span class="marquee-dot"></span>MERCEDES AMG</span>
+    <span class="marquee-item"><span class="marquee-dot"></span>PIXEL STUDIO</span>
+    <span class="marquee-item"><span class="marquee-dot"></span>PORSCHE 911 GT3</span>
+    <span class="marquee-item"><span class="marquee-dot"></span>DODGE CHALLENGER</span>
+    <span class="marquee-item"><span class="marquee-dot"></span>A3 & A4 SIZES</span>
+    <span class="marquee-item"><span class="marquee-dot"></span>BMW M4 GT3</span>
+    <span class="marquee-item"><span class="marquee-dot"></span>FRAMED & UNFRAMED</span>
+    <span class="marquee-item"><span class="marquee-dot"></span>FORD MUSTANG GT</span>
+    <span class="marquee-item"><span class="marquee-dot"></span>PREMIUM QUALITY</span>
+    <span class="marquee-item"><span class="marquee-dot"></span>MERCEDES AMG</span>
+    <span class="marquee-item"><span class="marquee-dot"></span>PIXEL STUDIO</span>
+  </div>
+</div>
+
+<!-- POSTER SHOWCASE -->
+<section class="showcase">
+  <div class="showcase-header">
+    <div>
+      <div class="section-label">The Collection</div>
+      <h2 class="showcase-title">Icons on<br><em>Your Wall</em></h2>
+    </div>
+    <p class="showcase-desc">Every poster is a carefully edited artwork — not just a photo. Each one designed to command attention.</p>
+  </div>
+
+  <  <div class="poster-grid">
+
+    <!-- Card 1 — tall feature card — Porsche 911 GT3 -->
+    <div class="poster-card">
+      <div class="poster-art" style="min-height:500px; overflow:hidden;">
+        <img src="porsche1.jpg" alt="Porsche 911 GT3" style="width:100%;height:100%;min-height:500px;object-fit:cover;display:block;transition:transform 0.6s cubic-bezier(0.25,0.46,0.45,0.94);">
+      </div>
+      <span class="poster-badge">Featured</span>
+      <span class="size-tag">A3 / A4</span>
+      <div class="poster-overlay">
+        <div class="overlay-model">Porsche 911 GT3</div>
+        <div class="overlay-details">Track Edition · Red Fury</div>
+      </div>
+    </div>
+
+    <!-- Card 2 — Dodge Challenger -->
+    <div class="poster-card">
+      <div class="poster-art" style="min-height:260px; overflow:hidden;">
+        <img src="dodge1.jpg" alt="Dodge Challenger" style="width:100%;height:100%;min-height:260px;object-fit:cover;display:block;transition:transform 0.6s cubic-bezier(0.25,0.46,0.45,0.94);">
+      </div>
+      <span class="size-tag">A3 / A4</span>
+      <div class="poster-overlay">
+        <div class="overlay-model">Dodge Challenger</div>
+        <div class="overlay-details">Hellcat · Crimson Edit</div>
+      </div>
+    </div>
+
+    <!-- Card 3 — BMW Motorsport -->
+    <div class="poster-card">
+      <div class="poster-art" style="min-height:260px; overflow:hidden;">
+        <img src="bmw1.jpg" alt="BMW Motorsport" style="width:100%;height:100%;min-height:260px;object-fit:cover;display:block;transition:transform 0.6s cubic-bezier(0.25,0.46,0.45,0.94);">
+      </div>
+      <span class="size-tag">A3 / A4</span>
+      <span class="poster-badge" style="background:#e63535;">Race</span>
+      <div class="poster-overlay">
+        <div class="overlay-model">BMW M4 GT3</div>
+        <div class="overlay-details">Motorsport · Race #92</div>
+      </div>
+    </div>
+
+    <!-- Card 4 — Mustang GT -->
+    <div class="poster-card">
+      <div class="poster-art" style="min-height:260px; overflow:hidden;">
+        <img src="mustang1.jpg" alt="Ford Mustang GT" style="width:100%;height:100%;min-height:260px;object-fit:cover;display:block;transition:transform 0.6s cubic-bezier(0.25,0.46,0.45,0.94);">
+      </div>
+      <span class="size-tag">A3 / A4</span>
+      <span class="poster-badge" style="background:#9b3de8;">New</span>
+      <div class="poster-overlay">
+        <div class="overlay-model">Ford Mustang GT</div>
+        <div class="overlay-details">Retrofuturistic · Neon Wave</div>
+      </div>
+    </div>
+
+    <!-- Card 5 — Mercedes AMG -->
+    <div class="poster-card">
+      <div class="poster-art" style="min-height:260px; overflow:hidden;">
+        <img src="mercedes1.jpg" alt="Mercedes AMG" style="width:100%;height:100%;min-height:260px;object-fit:cover;display:block;transition:transform 0.6s cubic-bezier(0.25,0.46,0.45,0.94);">
+      </div>
+      <span class="size-tag">A3 / A4</span>
+      <div class="poster-overlay">
+        <div class="overlay-model">Mercedes AMG GT</div>
+        <div class="overlay-details">Purple Reign · Night Edit</div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- WHY PIXEL -->
+<section class="why-section">
+  <div class="why-grid">
+    <div class="why-text-side">
+      <div class="section-label">Why Pixel</div>
+      <h2 class="why-big-text">
+        Not just a poster.<br>
+        <em>A statement.</em>
+      </h2>
+      <p class="why-body">Every piece in the Pixel collection is a hand-edited artwork — processed, colour-graded and composed specifically for walls. These aren't stock images slapped on paper. These are posters that make people stop and stare.</p>
+    </div>
+    <div class="reasons-list">
+      <div class="reason-item">
+        <div class="reason-num">01</div>
+        <div class="reason-content">
+          <div class="reason-title">Hand-Edited Artwork</div>
+          <div class="reason-desc">Each poster is individually colour-graded, retouched and composed. No two edits are the same — every print is its own piece of art.</div>
+        </div>
+      </div>
+      <div class="reason-item">
+        <div class="reason-num">02</div>
+        <div class="reason-content">
+          <div class="reason-title">Premium Print Quality</div>
+          <div class="reason-desc">Printed on high-quality photo paper with vivid ink. Sharp lines, deep blacks, and colours that stay true for years.</div>
+        </div>
+      </div>
+      <div class="reason-item">
+        <div class="reason-num">03</div>
+        <div class="reason-content">
+          <div class="reason-title">A3 & A4 Sizes</div>
+          <div class="reason-desc">Available in both A3 and A4 — framed or unframed. Perfect for bedrooms, studios, garages, or offices.</div>
+        </div>
+      </div>
+      <div class="reason-item">
+        <div class="reason-num">04</div>
+        <div class="reason-content">
+          <div class="reason-title">Delivered to Your Door</div>
+          <div class="reason-desc">Carefully packed in protective tubes or rigid mailers. Arrives in perfect condition, ready to hang.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SPECS -->
+<section class="specs-section">
+  <div class="specs-inner">
+    <div class="section-label">The Details</div>
+    <div class="specs-grid">
+      <div class="spec-item">
+        <div class="spec-icon">🖨️</div>
+        <div class="spec-value">300 DPI</div>
+        <div class="spec-label">Print Resolution</div>
+      </div>
+      <div class="spec-item">
+        <div class="spec-icon">📐</div>
+        <div class="spec-value">A3 / A4</div>
+        <div class="spec-label">Available Sizes</div>
+      </div>
+      <div class="spec-item">
+        <div class="spec-icon">🖼️</div>
+        <div class="spec-value">2 Types</div>
+        <div class="spec-label">Framed & Unframed</div>
+      </div>
+      <div class="spec-item">
+        <div class="spec-icon">🚀</div>
+        <div class="spec-value">Fast</div>
+        <div class="spec-label">Amazon Delivery</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- QUOTE -->
+<section class="quote-section">
+  <p class="quote-text">
+    "Drive it on the road or hang it on the wall —<br>
+    a Porsche deserves to be <em>seen</em>."
+  </p>
+  <div class="quote-author">— Pixel Studio</div>
+</section>
+
+<!-- ORDER CTA -->
+<section class="order-section" id="order">
+  <div class="order-box">
+    <span class="order-eyebrow">Available Now on Amazon</span>
+    <h2 class="order-title"><span>Order Now</span></h2>
+    <p class="order-desc">Pick your size, choose framed or unframed, and get it delivered straight to your door. Fast shipping across India.</p>
+    <a href="https://www.amazon.in" target="_blank" class="order-btn">
+      Shop on Amazon
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+    </a>
+    <div class="order-note">⭐ Free delivery on orders over ₹499 · Easy returns · Secure payment</div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-brand">PIXEL</div>
+  <div class="footer-copy">© 2025 Pixel Studio · All Rights Reserved</div>
+</footer>
+
+<script>
+  // Custom cursor
+  const cursor = document.getElementById('cursor');
+  const ring = document.getElementById('cursorRing');
+  let mx = 0, my = 0, rx = 0, ry = 0;
+
+  document.addEventListener('mousemove', e => {
+    mx = e.clientX; my = e.clientY;
+    cursor.style.left = mx + 'px';
+    cursor.style.top = my + 'px';
+  });
+
+  function animateRing() {
+    rx += (mx - rx) * 0.12;
+    ry += (my - ry) * 0.12;
+    ring.style.left = rx + 'px';
+    ring.style.top = ry + 'px';
+    requestAnimationFrame(animateRing);
+  }
+  animateRing();
+
+  // Hover effect on interactive elements
+  const hoverEls = document.querySelectorAll('a, .poster-card, .reason-item, .order-btn');
+  hoverEls.forEach(el => {
+    el.addEventListener('mouseenter', () => ring.classList.add('hovered'));
+    el.addEventListener('mouseleave', () => ring.classList.remove('hovered'));
+  });
+
+  // Scroll reveal
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.style.opacity = '1';
+        entry.target.style.transform = 'translateY(0)';
+      }
+    });
+  }, { threshold: 0.1 });
+
+  // img hover zoom
+  document.querySelectorAll('.poster-card').forEach(card => {
+    const img = card.querySelector('img');
+    if (img) {
+      card.addEventListener('mouseenter', () => img.style.transform = 'scale(1.07)');
+      card.addEventListener('mouseleave', () => img.style.transform = 'scale(1)');
+    }
+  });
+
+  document.querySelectorAll('.poster-card, .reason-item, .spec-item, .why-big-text').forEach(el => {
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(25px)';
+    el.style.transition = 'opacity 0.7s ease, transform 0.7s ease';
+    observer.observe(el);
+  });
+</script>
+</body>
+</html>
